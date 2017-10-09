@@ -6,6 +6,7 @@ Configuration.new do
   #   Load SparklePacks
   sparkle_pack [
     'sparkle-pack-aws-my-s3-buckets',
+    'sparkle-pack-aws-my-route53-zones',
     'sparkle-pack-git-rev-outputs'
   ]
   #   Set style of stack nesting

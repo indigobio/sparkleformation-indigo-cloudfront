@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/gswallow/sparkle-pack-aws-my-route53-zones.git
+  revision: 30f0329f40016f93dc18a4295063b091f6549791
+  specs:
+    sparkle-pack-aws-my-route53-zones (0.0.1)
+      aws-sdk-core (~> 2)
+
+GIT
   remote: https://github.com/gswallow/sparkle-pack-aws-my-s3-buckets.git
   revision: c3f5761592f2373e0950a514964780740e02d708
   specs:
@@ -111,6 +118,7 @@ PLATFORMS
 
 DEPENDENCIES
   sfn
+  sparkle-pack-aws-my-route53-zones!
   sparkle-pack-aws-my-s3-buckets!
   sparkle-pack-git-rev-outputs!
 
