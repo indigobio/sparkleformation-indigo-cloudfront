@@ -21,9 +21,7 @@ SparkleFormation.dynamic(:cloudfront_distribution) do |_name, _config = {}|
   parameters("#{_name}_aliases".to_sym) do
     type 'CommaDelimitedList'
     default "assets.#{ENV['public_domain']}"
-    allowed_pattern "[\\x20-\\x7E]*"
     description 'CNAMEs to use for custom domain name'
-    constraint_description 'can only contain ASCII characters'
   end
 
   parameters("#{_name}_ssl_certificate_id".to_sym) do
