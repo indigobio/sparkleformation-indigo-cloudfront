@@ -14,9 +14,9 @@ GIT
 
 GIT
   remote: https://github.com/gswallow/sparkle-pack-aws-my-server-certificates.git
-  revision: 6428562df30c101143a669cc4f7ee2a23492752f
+  revision: e5811bdb64b42988ab198806fafcdaecaa368ff8
   specs:
-    sparkle-pack-aws-my-server-certificates (0.0.1)
+    sparkle-pack-aws-my-server-certificates (0.0.2)
       aws-sdk-core (~> 2)
 
 GIT
@@ -32,7 +32,7 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     attribute_struct (0.4.2)
       bogo (>= 0.1.31, < 0.3.0)
-    aws-sdk-core (2.10.58)
+    aws-sdk-core (2.10.61)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
     aws-sigv4 (1.0.2)

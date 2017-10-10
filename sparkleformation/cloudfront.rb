@@ -5,7 +5,7 @@ EOF
 
   dynamic!(:cloudfront_distribution, 'assets', 
            :origin => "static.#{ENV['public_domain']}",
-           :ssl_certificate_id => registry!(:my_acm_server_certificate)
+           :ssl_certificate_id => registry!(:my_acm_server_certificate, :east_only => true)
            )
 
   dynamic!(:record_set, 'assets',
