@@ -1,6 +1,7 @@
 SparkleFormation.dynamic(:cloudfront_distribution) do |_name, _config = {}|
 
   _config[:price_class] ||= 'PriceClass_100' # US only
+  _config[:ssl_certificate_id] ||= 'default'
 
   parameters("#{_name}_price_class".to_sym) do
     type 'String'
@@ -17,9 +18,46 @@ SparkleFormation.dynamic(:cloudfront_distribution) do |_name, _config = {}|
     constraint_description 'can only contain ASCII characters'
   end
 
+  parameters("#{_name}_aliases".to_sym) do
+    type 'CommaDelimitedList'
+    default "assets.#{ENV['public_domain']}"
+    allowed_pattern "[\\x20-\\x7E]*"
+    description 'CNAMEs to use for custom domain name'
+    constraint_description 'can only contain ASCII characters'
+  end
+
+  parameters("#{_name}_ssl_certificate_id".to_sym) do
+    type 'String'
+    default _config[:ssl_certificate_id]
+    description 'SSL certificate to use with the cloudfront distribution'
+  end
+
+  parameters("#{_name}_ssl_certificate_type".to_sym) do
+    type 'String'
+    allowed_values %w(acm iam default)
+    default 'acm'
+    description 'Type of SSL certificate to use with cloudfront. Default uses the randomly generated SSL cert.'
+  end
+
+  conditions.set!(
+    "#{_name}_uses_default_cert".to_sym,
+    equals!(ref!("#{_name}_ssl_certificate_id".to_sym), 'default')
+  )
+
+  conditions.set!(
+    "#{_name}_uses_iam_cert".to_sym,
+    equals!(ref!("#{_name}_ssl_certificate_type".to_sym), 'iam')
+  )
+
+  conditions.set!(
+    "#{_name}_uses_acm_cert".to_sym,
+    equals!(ref!("#{_name}_ssl_certificate_type".to_sym), 'acm')
+  )
+
   dynamic!(:cloud_front_distribution, _name).properties do
     distribution_config do
       enabled 'true'
+      aliases ref!("#{_name}_aliases".to_sym)
       comment ref!("#{_name}_comment".to_sym)
       default_cache_behavior do
         forwarded_values do
@@ -30,6 +68,12 @@ SparkleFormation.dynamic(:cloudfront_distribution) do |_name, _config = {}|
         end
         target_origin_id _name
         viewer_protocol_policy 'redirect-to-https'
+      end
+      viewer_certificate do
+        acm_certificate_arn if!("#{_name}_uses_acm_cert".to_sym, ref!("#{_name}_ssl_certificate_id".to_sym), no_value!)
+        iam_certificate_id if!("#{_name}_uses_iam_cert".to_sym, ref!("#{_name}_ssl_certificate_id".to_sym), no_value!)
+        cloud_front_default_certificate if!("#{_name}_uses_default_cert".to_sym, 'true', no_value!)
+        ssl_support_method 'sni-only'
       end
       origins _array(
                 ->{
