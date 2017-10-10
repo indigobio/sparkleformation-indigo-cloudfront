@@ -13,6 +13,13 @@ GIT
       aws-sdk-core (~> 2)
 
 GIT
+  remote: https://github.com/gswallow/sparkle-pack-aws-my-server-certificates.git
+  revision: 6428562df30c101143a669cc4f7ee2a23492752f
+  specs:
+    sparkle-pack-aws-my-server-certificates (0.0.1)
+      aws-sdk-core (~> 2)
+
+GIT
   remote: https://github.com/gswallow/sparkle-pack-git-rev-outputs.git
   revision: 146e854160fbd15c4ab6e851576756f0c313676a
   specs:
@@ -120,6 +127,7 @@ DEPENDENCIES
   sfn
   sparkle-pack-aws-my-route53-zones!
   sparkle-pack-aws-my-s3-buckets!
+  sparkle-pack-aws-my-server-certificates!
   sparkle-pack-git-rev-outputs!
 
 BUNDLED WITH
